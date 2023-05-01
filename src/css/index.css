@@ -62,8 +62,7 @@ ul {
    
 }
 
-.search-form-btn, 
-.load-more {
+.search-form-btn{
     display: flex;
     align-items: center;
     margin-left: .625rem;
@@ -90,13 +89,7 @@ ul {
 .btn-up:hover {
     background-color: #626b92;
 }
-.load-more:hover{
-background-color: #626b92;
-}
-.load-more{
-    margin-top: 5px;
-    
-}
+
 .backdrop {
     position: fixed;
     top: 0;

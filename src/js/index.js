@@ -9,13 +9,11 @@ import { PixabayAPI } from './PixabayAPI';
 export const refs = {
   form: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
-  btnLoadMore: document.querySelector('.load-more'),
-  backdrop: document.querySelector('.backdrop'),
+   backdrop: document.querySelector('.backdrop'),
   spinner: document.querySelector('.js-spinner'),
   body: document.querySelector('body'),
   btnUp: document.getElementById('to-top-btn'),
   btnUpWrapper: document.querySelector('.btn-up'),
-  like: document.querySelector('.heart'),
   searchInput: document.querySelector('.search-form-input'),
 };
 export const notifyInit = {
@@ -25,7 +23,7 @@ export const notifyInit = {
   timeout: 1500,
   opacity: 0.8,
   fontSize: '16px',
-  borderRadius: '50px',
+  borderRadius: '20px',
 };
 // 
 
@@ -40,8 +38,6 @@ window.addEventListener('load', () => {
 
   spinnerStop();
 });
-
-refs.btnLoadMore.classList.add('is-hidden');
 
 const pixaby = new PixabayAPI();
 
@@ -172,11 +168,10 @@ const onLoadMore = async () => {
 function clearPage() {
   pixaby.resetPage();
   refs.gallery.innerHTML = '';
-  refs.btnLoadMore.classList.add('is-hidden');
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
-refs.btnLoadMore.addEventListener('click', onLoadMore);
+
 
 //  smooth scrolling
 function scrollPage() {
@@ -195,7 +190,7 @@ function scrollPage() {
 window.addEventListener('scroll', scrollFunction);
 
 function scrollFunction() {
-  if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+  if (document.body.scrollTop > 15 || document.documentElement.scrollTop > 15) {
     refs.btnUpWrapper.style.display = 'flex';
   } else {
     refs.btnUpWrapper.style.display = 'none';
