@@ -14,6 +14,7 @@ const refs = {
   btnUpWrapper: document.querySelector('.btn-up'),
   searchInput: document.querySelector('.search-form-input'),
 };
+
 const notifyInit = {
   width: '250px',
   position: 'right-bottom',
