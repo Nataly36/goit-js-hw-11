@@ -15,6 +15,7 @@ const refs = {
   searchInput: document.querySelector('.search-form-input'),
 };
 
+
 const notifyInit = {
   width: '250px',
   position: 'right-bottom',
@@ -24,7 +25,6 @@ const notifyInit = {
   fontSize: '16px',
   borderRadius: '50px',
 };
-
 
 
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
