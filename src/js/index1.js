@@ -14,6 +14,15 @@ const refs = {
   btnUpWrapper: document.querySelector('.btn-up'),
   searchInput: document.querySelector('.search-form-input'),
 };
+const notifyInit = {
+  width: '250px',
+  position: 'right-bottom',
+  distance: '20px',
+  timeout: 1500,
+  opacity: 0.8,
+  fontSize: '16px',
+  borderRadius: '50px',
+};
 
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
@@ -118,7 +127,7 @@ const onSubmitClick = async event => {
     modalLightboxGallery.refresh();
     
   } catch (error) {
-    Notify.failure(error.message, 'Something went wrong!', notifyInit);
+     Notify.failure(error.message, 'Something went wrong!', notifyInit);
 
     clearPage();
   } 
