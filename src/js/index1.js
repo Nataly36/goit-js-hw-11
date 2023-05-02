@@ -25,6 +25,8 @@ const notifyInit = {
   borderRadius: '50px',
 };
 
+
+
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
