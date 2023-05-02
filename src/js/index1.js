@@ -28,6 +28,7 @@ const notifyInit = {
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
+
 refs.btnLoadMore.classList.add('is-hidden');
 
 const pixaby = new PixabayAPI();
