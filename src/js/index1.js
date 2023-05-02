@@ -85,7 +85,7 @@ const onSubmitClick = async event => {
   } = event.target;
 
   const search_query = searchQuery.value.trim().toLowerCase();
-
+    refs.searchInput.innerHTML = '';
   if (!search_query) {
     clearPage();
     Notify.info('Enter data to search!', notifyInit);
@@ -157,7 +157,8 @@ const onLoadMore = async () => {
 function clearPage() {
   pixaby.resetPage();
   refs.gallery.innerHTML = '';
-  refs.btnLoadMore.classList.add('is-hidden');
+    refs.btnLoadMore.classList.add('is-hidden');
+   
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
