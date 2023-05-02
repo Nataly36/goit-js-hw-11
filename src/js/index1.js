@@ -5,39 +5,20 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 import { createMarkup } from './createMarkup';
 import { PixabayAPI } from './PixabayAPI';
 
-
-export const refs = {
+const refs = {
   form: document.querySelector('.search-form'),
   gallery: document.querySelector('.gallery'),
-   backdrop: document.querySelector('.backdrop'),
-  spinner: document.querySelector('.js-spinner'),
-  body: document.querySelector('body'),
+  btnLoadMore: document.querySelector('.load-more'),
+  backdrop: document.querySelector('.backdrop'),
   btnUp: document.getElementById('to-top-btn'),
   btnUpWrapper: document.querySelector('.btn-up'),
   searchInput: document.querySelector('.search-form-input'),
 };
-export const notifyInit = {
-  width: '250px',
-  position: 'right-bottom',
-  distance: '20px',
-  timeout: 1500,
-  opacity: 0.8,
-  fontSize: '16px',
-  borderRadius: '20px',
-};
-// 
 
 const modalLightboxGallery = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
-
-spinnerPlay();
-
-window.addEventListener('load', () => {
-  console.log('All resources finished loading!');
-
-  spinnerStop();
-});
+refs.btnLoadMore.classList.add('is-hidden');
 
 const pixaby = new PixabayAPI();
 
@@ -47,42 +28,43 @@ const options = {
   threshold: 1.0,
 };
 
+
 const loadMorePhotos = async function (entries, observer) {
-  entries.forEach(async entry => {
-    if (entry.isIntersecting) {
-      observer.unobserve(entry.target);
-      pixaby.incrementPage();
+    entries.forEach(async entry => {
+        if (entry.isIntersecting) {
+            observer.unobserve(entry.target);
+            pixaby.incrementPage();
 
-      spinnerPlay();
+      
+            try {
+      
 
-      try {
-        spinnerPlay();
+                const { hits } = await pixaby.getPhotos();
+                const markup = createMarkup(hits);
+                refs.gallery.insertAdjacentHTML('beforeend', markup);
 
-        const { hits } = await pixaby.getPhotos();
-        const markup = createMarkup(hits);
-        refs.gallery.insertAdjacentHTML('beforeend', markup);
+       
+                if (pixaby.hasMorePhotos) {
+                    const lastItem = document.querySelector('.gallery a:last-child');
+                    observer.observe(lastItem);
+                } else
+                    Notify.info(
+                        "We're sorry, but you've reached the end of search results.",
+                        notifyInit
+                    );
 
+                modalLightboxGallery.refresh();
+                scrollPage();
+            } catch (error) {
+                Notify.failure(error.message, 'Something went wrong!', notifyInit);
+                clearPage();
+            } finally {
         
-        if (pixaby.hasMorePhotos) {
-          const lastItem = document.querySelector('.gallery a:last-child');
-          observer.observe(lastItem);
-        } else
-          Notify.info(
-            "We're sorry, but you've reached the end of search results.",
-            notifyInit
-          );
-
-        modalLightboxGallery.refresh();
-        scrollPage();
-      } catch (error) {
-        Notify.failure(error.message, 'Something went wrong!', notifyInit);
-        clearPage();
-      } finally {
-        spinnerStop();
-      }
+           }
     }
   });
 };
+
 
 const observer = new IntersectionObserver(loadMorePhotos, options);
 
@@ -108,7 +90,7 @@ const onSubmitClick = async event => {
   clearPage();
 
   try {
-    spinnerPlay();
+    
     const { hits, total } = await pixaby.getPhotos();
 
     if (hits.length === 0) {
@@ -139,9 +121,7 @@ const onSubmitClick = async event => {
     Notify.failure(error.message, 'Something went wrong!', notifyInit);
 
     clearPage();
-  } finally {
-    spinnerStop();
-  }
+  } 
 };
 
 const onLoadMore = async () => {
@@ -168,10 +148,11 @@ const onLoadMore = async () => {
 function clearPage() {
   pixaby.resetPage();
   refs.gallery.innerHTML = '';
+  refs.btnLoadMore.classList.add('is-hidden');
 }
 
 refs.form.addEventListener('submit', onSubmitClick);
-
+refs.btnLoadMore.addEventListener('click', onLoadMore);
 
 //  smooth scrolling
 function scrollPage() {
@@ -199,17 +180,3 @@ function scrollFunction() {
 refs.btnUp.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-
-
-
-// 
-export function spinnerPlay() {
-  refs.body.classList.add('loading');
-}
-
-export function spinnerStop() {
-  window.setTimeout(function () {
-    refs.body.classList.remove('loading');
-    refs.body.classList.add('loaded');
-  }, 1500);
-}

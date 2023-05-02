@@ -62,7 +62,7 @@ ul {
    
 }
 
-.search-form-btn{
+.search-form-btn, .load-more{
     display: flex;
     align-items: center;
     margin-left: .625rem;
@@ -78,10 +78,13 @@ ul {
     color: #3014ad;
     text-transform: capitalize;
     font-weight: 600;
-   
+ 
     transition: all 0.2s ease-in-out;
 
    
+}
+.load-more{
+    margin-right: 45px;
 }
 .search-form-btn:hover {
     background-color: #626b92;
@@ -89,7 +92,9 @@ ul {
 .btn-up:hover {
     background-color: #626b92;
 }
-
+.load-more:hover {
+    background-color: #626b92;
+}
 .backdrop {
     position: fixed;
     top: 0;
